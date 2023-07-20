@@ -1,0 +1,66 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{MBTI16P}[2023/07/06 16personalities LaTeX package]
+
+% Tikz libs
+\RequirePackage{tikz}
+\usetikzlibrary{calc}
+\RequirePackage{etoolbox}
+
+% Input arguments to the package
+\pgfkeys{
+  /MBTI16P/.cd,
+  bgcolor/.initial=gray!10,
+  fgcolor/.initial=gray,
+  barwidth/.initial=4cm,
+  barheight/.initial=2mm
+}
+
+% \trait{text}{percentage}{text}{percentage}
+% The \trait command creates a progress bar like object that fills ether from left or right
+% depending on witch percentage is the highest.
+\newcommand\trait[4]{
+    \def\fillfraction{#2}  % Define the helper command
+
+    \begin{tikzpicture}[fill fraction/.style 2 args={path picture={
+        \fill[##1] (path picture bounding box.south west) rectangle($(path picture bounding box.north west)!##2!(path picture bounding box.north east)$);}}]
+
+        \pgfmathparse{#2>#4 ? 1 : 0}
+        \ifnum\pgfmathresult=1
+            \draw (0, 0) node[draw,fill={\pgfkeysvalueof{/MBTI16P/fgcolor}}, fill fraction={\pgfkeysvalueof{/MBTI16P/bgcolor}}{\fillfraction/100}, minimum width=\pgfkeysvalueof{/MBTI16P/barwidth}, minimum height=\pgfkeysvalueof{/MBTI16P/barheight}] {};
+        \else
+            \draw (0, 0) node[draw,fill={\pgfkeysvalueof{/MBTI16P/bgcolor}}, fill fraction={\pgfkeysvalueof{/MBTI16P/fgcolor}}{\fillfraction/100}, minimum width=\pgfkeysvalueof{/MBTI16P/barwidth}, minimum height=\pgfkeysvalueof{/MBTI16P/barheight}] {};
+        \fi
+        \node[anchor=west, xshift=-1cm] at (-\pgfkeysvalueof{/MBTI16P/barwidth}/2 ,0) {#2\%};
+        \node[anchor=east, xshift=1cm] at  ( \pgfkeysvalueof{/MBTI16P/barwidth}/2 ,0) {#4\%};
+        \node[anchor=west, xshift=-1cm] at (-\pgfkeysvalueof{/MBTI16P/barwidth}/2 ,-0.5) {#1};
+        \node[anchor=east, xshift=1cm] at  ( \pgfkeysvalueof{/MBTI16P/barwidth}/2 ,-0.5)  {#3};
+
+    \end{tikzpicture}
+}
+
+
+% \colortrait{text}{percentage}{text}{percentage}{color}
+% This command is the same as the \trait command that creates a progress bar
+% like object that fills ether from left or right
+% depending on witch percentage is the highest.
+% with the only difference is that it supports a custom color for the larges trait.
+\newcommand\colortrait[5]{
+    \def\fillfraction{#2}  % Define the helper command
+
+    \begin{tikzpicture}[fill fraction/.style 2 args={path picture={
+        \fill[##1] (path picture bounding box.south west) rectangle($(path picture bounding box.north west)!##2!(path picture bounding box.north east)$);}}]
+
+        \pgfmathparse{#2>#4 ? 1 : 0}
+        \ifnum\pgfmathresult=1
+            \draw (0, 0) node[draw,fill={#5}, fill fraction={\pgfkeysvalueof{/MBTI16P/bgcolor}}{\fillfraction/100}, minimum width=\pgfkeysvalueof{/MBTI16P/barwidth}, minimum height=\pgfkeysvalueof{/MBTI16P/barheight}] {};
+        \else
+            \draw (0, 0) node[draw,fill={\pgfkeysvalueof{/MBTI16P/bgcolor}}, fill fraction={#5}{\fillfraction/100}, minimum width=\pgfkeysvalueof{/MBTI16P/barwidth}, minimum height=\pgfkeysvalueof{/MBTI16P/barheight}] {};
+        \fi
+        \node[anchor=west, xshift=-1cm] at (-\pgfkeysvalueof{/MBTI16P/barwidth}/2 ,0) {#2\%};
+        \node[anchor=east, xshift=1cm] at  ( \pgfkeysvalueof{/MBTI16P/barwidth}/2 ,0) {#4\%};
+        \node[anchor=west, xshift=-1cm] at (-\pgfkeysvalueof{/MBTI16P/barwidth}/2 ,-0.5) {#1};
+        \node[anchor=east, xshift=1cm] at  ( \pgfkeysvalueof{/MBTI16P/barwidth}/2 ,-0.5)  {#3};
+    \end{tikzpicture}
+} % end of \colortrait
+
+\endinput
