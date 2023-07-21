@@ -1,5 +1,5 @@
 # MBTI16PersonalitesLaTeX
-This package for LaTeX is used to generate the personalty type gauges found on 16personalties.com in a LaTeX document.
+This package for LaTeX is used to generate the personalty type gauges found on 16personalties.com (not affiliated) in a LaTeX document.
 
 # How to use
 To use the package `\usepackage{MBTI16P}`.
@@ -35,6 +35,6 @@ For example:
 ``` tex
 \pgfkeys{/MBTI16P/.cd, barwidth=5cm}
 ```
-This changes the bar barwidth to 5cm.
+This changes the bar `barwidth` to 5cm.
 
 
