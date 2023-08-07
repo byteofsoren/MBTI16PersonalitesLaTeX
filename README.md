@@ -3,6 +3,13 @@ This package for LaTeX is used to generate the personalty type gauges found on 1
 
 # How to use
 To use the package `\usepackage{MBTI16P}`.
+First add this package inside your LaTeX package using submodule:
+
+``` bash
+$ git submodule add https://github.com/byteofsoren/MBTI16PersonalitesLaTeX.git  texmf/tex/latex/MBTI16PersonalitesLaTeX
+```
+Or if you are not tracking your project with git (You should) add it by just cloning it in to the same directory
+
 And then at the moment there is only two commands `\trait` and `\colortrait`.
 Those two generate a trait bar like on the 16 personalties web site.
 The arguments for both follow the same structure:
